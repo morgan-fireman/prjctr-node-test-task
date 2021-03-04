@@ -1,8 +1,8 @@
 # prjctr-node-test-task
-Привет! Если ты находишься здесь - значит ты хочешь узнать больше о Node.js, присоединясь к обучению в Projector. Для этого осталось лишь пару шагов, и один из них - это тестовое задание по JS. Оно надо для того, чтобы обучение было максимально качественным для всех - для тебя, для других студентов и для преподавателя. Ведь если ты не будешь знать основ JS - тебе будет очень трудно. Задания не сложные, выполнение их при должном уровне сноровки занимает не больше 1 часа. Удачи!
+Hey! If you are here, then you want to learn more about Node.js by joining the Projector training. There are only a couple of steps left for this, and one of them is a JS test task. It is necessary so that the training is of the highest quality for everyone - for you, for other students and for the teacher. After all, if you do not know the basics of JS, it will be very difficult for you. Tasks are not difficult, their completion with the proper level of dexterity takes no more than 1 hour. Good luck!
 
-## Задание №1
-Реализовать функцию `groupBy` на чистом JS, которая будет группировать массив по определённой функции, переданной вторым аргументом:
+## Task 1
+Implement a pure JS function `groupBy` that will group an array by a specific function passed as the second argument:
 ```
 const groupBy = (array, func) => {
    ...
@@ -10,8 +10,8 @@ const groupBy = (array, func) => {
 
 console.log(groupBy([3.6, 3.7, 6.4, 8.9], Math.floor)) // { '3': [3.6, 3.7], '6': [6.4], '8': [8.9] }
 ```
-## Задание №2
-Реализовать функцию `invert`, которая будет менять ключи и значения объектов местами:
+## Task 2
+Implement the `invert` function, which will change the keys and values of objects in places:
 ```
 const invert = (obj) => {
    ...
@@ -19,8 +19,8 @@ const invert = (obj) => {
 
 console.log(invert({ 'a': 'some', 'b': 'object', 'c': 1 })) // { 'some': 'a', 'object': 'b', '1': 'c' }
 ```
-## Задание №3
-Реализовать функцию `checkParentheses`, которая проверяет на синтаксическую верность последовательность скобок ( (), {} и [] ). Функция возвразает `false`, если переданная строка содержит неправильную последовательность:
+## Task 3
+Implement the `checkParentheses` function that checks the sequence of parentheses ((), {}, and []) for syntactic correctness. The function returns `false` if the passed string contains an invalid sequence:
 ```
 const checkParentheses = (str) => {
    ...
@@ -33,8 +33,8 @@ console.log(checkParentheses('j78(g5b]uyg')) // false
 console.log(checkParentheses(',m{i987y}hj')) // true
 console.log(checkParentheses('dsa[3ed---:]::')) // true
 ```
-## Задание №4
-Дан объект, эмулирующий в самом примитивном виде слой работы с данными:
+## Task 4
+An object is given and it simulates in the most primitive form a layer for working with data:
 ```
 const database = {
     getUser: (id, callback) => {
@@ -87,7 +87,7 @@ const database = {
     },
 };
 ```
-Необходимо отрефакторить функцию ниже, чтобы избежать большого количества уровней вложенности, а также чтобы повысить читаемость:
+The function needs to be refactored to avoid many levels of nesting:
 ```
 const buyBookForUser = (bookId, userId, callback) => {
     database.getUser(userId, (err, user) => {
@@ -115,7 +115,7 @@ const buyBookForUser = (bookId, userId, callback) => {
     })
 }
 ```
-Для тестов советую использовать данный код:
+Use this code to test your changes:
 ```
 buyBookForUser(1,1, (err, message) => {
     console.log(err) // null
@@ -143,6 +143,6 @@ buyBookForUser(1,3, (err, message) => {
 })
 ```
 
-Результатом выполнения данного тестового должен быть открытый репозиторий с минимум 4 файлами (одно задание - один файл)
-А ссылку на свой репозиторий добавь сюда:
+The result of executing this test should be an open repository with at least 4 files (one task - one file).
+Add a link to your repository here:
 https://forms.gle/gvXFZ3Ay65FUsP4J8
