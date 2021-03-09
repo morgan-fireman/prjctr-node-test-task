@@ -40,6 +40,9 @@ const database = {
     }, {
       id: 2,
       name: 'John'
+    }, {
+      id: 5,
+      name: 'Morgan'
     }];
 
     const user = users.find((user) => user.id === id);
@@ -58,7 +61,7 @@ const database = {
 
     const userBook = usersBooks[userId];
     if (!userBook) {
-      callback(`Set of books related to userId=${userId} not found`);
+      callback(`Set of books related to id=${userId} not found`);
     }
     else {
       callback(null, userBook);
@@ -86,50 +89,76 @@ const database = {
   },
 };
 
-const buyBookForUser = (bookId, userId, callback) => {
-  database.getUser(userId, (err, user) => {
-    if (err) {
-      return callback(err);
-    }
-    database.getUsersBook(userId, (err, userBooks) => {
-      if (err) {
-        return callback(err);
-      }
-      if (userBooks.includes(bookId)) {
-        return callback(`User already has book with id=${bookId}`);
-      }
-      database.buyBook(bookId, (err) => {
-        if (err) {
-          return callback(err);
-        }
-        callback(null, 'Success');
-      });
-    })
-  })
+const lookupForUser = (userId) => {
+  return new Promise((resolve, reject) => {
+    database.getUser(userId, (err, user) => {
+      if (err !== null) reject(err);
+      else resolve(user);
+    });
+  });
 };
+
+const lookupForUsersBooks = (userId) => {
+  return new Promise((resolve, reject) => {
+    database.getUsersBook(userId, (err, books) => {
+      if (err !== null) reject(err);
+      else resolve(books);
+    });
+  });
+};
+
+const doesUserHaveBook = (books, bookId) => {
+  return new Promise((resolve, reject) => {
+    if (books && books.includes(bookId)) reject(`User already has book with id=${bookId}`);
+    else resolve(bookId);
+  });
+};
+
+const handleBuyBook = (bookId) => {
+  return new Promise((resolve, reject) => {
+    database.buyBook(bookId, (err, result) => {
+      if (err !== null) reject(err);
+      else resolve("Success");
+    });
+  });
+};
+
+const buyBookForUser = (bookId, userId, callback) => {
+  lookupForUser(userId)
+    .then(user => lookupForUsersBooks(user.id))
+    .then(books => doesUserHaveBook(books, bookId))
+    .then(bookId => handleBuyBook(bookId))
+    .then(success => callback(success, null))
+    .catch(err => callback(err));
+}
 
 // basic tests
 buyBookForUser(1, 1, (err, message) => {
   console.log(err) // null
   console.log(message) // 'Success'
-})
+});
 
 buyBookForUser(1, 2, (err, message) => {
   console.log(err) // 'User already has book with id=1'
   console.log(message) // undefined
-})
+});
 
 buyBookForUser(3, 2, (err, message) => {
   console.log(err) // null
   console.log(message) // 'Success'
-})
+});
 
 buyBookForUser(5, 2, (err, message) => {
   console.log(err) // 'Book with id=5 not found'
   console.log(message) // undefined
-})
+});
 
 buyBookForUser(1, 3, (err, message) => {
   console.log(err) // 'User with id=3 not found'
   console.log(message) // undefined
-})
+});
+
+buyBookForUser(1, 5, (err, message) => {
+  console.log(err) // 'Set of books related to id=5 not found'
+  console.log(message) // undefined
+});
