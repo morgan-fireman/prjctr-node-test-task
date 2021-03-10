@@ -128,7 +128,7 @@ const buyBookForUser = (bookId, userId, callback) => {
     .then(user => lookupForUsersBooks(user.id))
     .then(books => doesUserHaveBook(books, bookId))
     .then(bookId => handleBuyBook(bookId))
-    .then(success => callback(success, null))
+    .then(success => callback(null, success))
     .catch(err => callback(err));
 }
 
